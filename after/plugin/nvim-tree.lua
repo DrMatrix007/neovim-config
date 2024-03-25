@@ -14,7 +14,7 @@ local function my_on_attach(bufnr)
 		print(vim.bo.filetype)
 		if vim.bo.filetype == "NvimTree" then
 			--vim.cmd "<ESC><c-w><c-p>"
-			vim.cmd.wincmd "p"      
+			vim.cmd.wincmd "p"
 
 		else
 			vim.cmd "NvimTreeFocus"
