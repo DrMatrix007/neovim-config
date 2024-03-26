@@ -13,19 +13,19 @@ local luasnip = require('luasnip')
 
 
 local function has_words_before()
-	local line, col = (unpack or table.unpack)(vim.api.nvim_win_get_cursor(0))
-	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
+    local line, col = (unpack or table.unpack)(vim.api.nvim_win_get_cursor(0))
+    return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match "%s" == nil
 end
 
 cmp.setup({
-    on_attach = function ()
+    on_attach = function()
     end,
     sources = {
-        {name = 'nvim_lsp'},
+        { name = 'nvim_lsp' },
     },
-        window = {
-      completion = cmp.config.window.bordered(),
-      documentation = cmp.config.window.bordered(),
+    window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
     },
     mapping = {
         ["<Up>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
@@ -69,22 +69,21 @@ cmp.setup({
 })
 
 
-local function on_attach(client,bufnr)
-    
-
-    vim.keymap.set("n","<leader>ld",function ()
+local function on_attach(client, _)
+    vim.keymap.set("n", "<leader>ld", function()
         vim.diagnostic.open_float()
-    end,{desc = "Open Diagnostic"})
+    end, { desc = "Open Diagnostic" })
 
-    vim.keymap.set("n","<leader>lD",function() require("telescope.builtin").diagnostics() end,{desc = "All Diagnostics"})
+    vim.keymap.set("n", "<leader>lD", function() require("telescope.builtin").diagnostics() end,
+        { desc = "All Diagnostics" })
 
-    vim.keymap.set("n","<leader>li", "<cmd>LspInfo<cr>", {desc = "LSP information"})
+    vim.keymap.set("n", "<leader>li", "<cmd>LspInfo<cr>", { desc = "LSP information" })
     if client.supports_method "textDocument/codeAction" then
-        vim.keymap.set("n","<leader>la",  function() vim.lsp.buf.code_action() end,{desc = "Code action"})
+        vim.keymap.set("n", "<leader>la", function() vim.lsp.buf.code_action() end, { desc = "Code action" })
     end
-     if client.supports_method "textDocument/formatting" then
-        vim.keymap.set("n","<leader>lf",  function() vim.lsp.buf.format() end,{desc = "Format"})
-     end
+    if client.supports_method "textDocument/formatting" then
+        vim.keymap.set("n", "<leader>lf", function() vim.lsp.buf.format() end, { desc = "Format" })
+    end
 end
 
 
@@ -93,27 +92,67 @@ end
 
 
 require('lspconfig').rust_analyzer.setup {
-  on_attach = on_attach,
-  capabilities = capabilities,
-  filetypes = {"rust"},
-  settings = {
-    ["rust-analyzer"] = {
-      cargo= {
-        allFeatures=true
-      },
-      check= {
-        command = "clippy"
-      }
-    },
-  }
+    --filetypes = { "rust" },
+    settings = {
+        ["rust-analyzer"] = {
+            cargo = {
+                allFeatures = true
+            },
+            check = {
+                command = "clippy"
+            }
+        },
+    }
 }
 
 require('lspconfig').lua_ls.setup({
-	settings = {
-		Lua  ={
-			diagnostics = {
-				globals = {'vim'}
-			}
-		}
-	}
+    settings = {
+        Lua = {
+            diagnostics = {
+                globals = { 'vim' }
+            }
+        }
+    }
+})
+
+
+
+
+--vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
+--vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
+--vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+
+-- Use LspAttach autocommand to only map the following keys
+-- after the language server attaches to the current buffer
+vim.api.nvim_create_autocmd('LspAttach', {
+    group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+
+    callback = function(ev)
+        vim.keymap.set('n', '<space>ld', vim.diagnostic.open_float, { desc = "Open Diagnostic" })
+        vim.keymap.set('n', '<space>lD', function() require("telescope.builtin").diagnostics() end, { desc = "All Diagnostics" })
+
+        -- Enable completion triggered by <c-x><c-o>
+        vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+
+        -- Buffer local mappings.
+        -- See `:help vim.lsp.*` for documentation on any of the below functions
+        local buffer = ev.buf
+        vim.keymap.set('n', '<leader>ljc', vim.lsp.buf.declaration, { buffer = buffer, desc = "Jmp declaration" })
+        vim.keymap.set('n', '<leader>ljf', vim.lsp.buf.definition, { buffer = buffer, desc = "Jmp definition" })
+        vim.keymap.set('n', '<leader>lH', vim.lsp.buf.hover, { buffer = buffer, desc = "Hover" })
+        --vim.keymap.set('n', '<leader>', vim.lsp.buf.implementation, {buffer = buffer,desc = ""})
+        vim.keymap.set('n', '<leader>lh', vim.lsp.buf.signature_help, { buffer = buffer, desc = "Signature help" })
+        --vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, {buffer = buffer,desc = ""})
+        --vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, {buffer = buffer,desc = ""})
+        --vim.keymap.set('n', '<space>wl', function()
+        --  print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+        --end, {buffer = buffer,desc = ""})
+        vim.keymap.set('n', '<leader>lt', vim.lsp.buf.type_definition, { buffer = buffer, desc = "Type definition" })
+        vim.keymap.set('n', '<space>lr', vim.lsp.buf.rename, { buffer = buffer, desc = "Rename" })
+        vim.keymap.set({ 'n', 'v' }, '<leader>la', vim.lsp.buf.code_action, { buffer = buffer, desc = "Code Action" })
+        vim.keymap.set('n', '<leader>lR', vim.lsp.buf.references, { buffer = buffer, desc = "References" })
+        vim.keymap.set('n', '<leader>lf', function()
+            vim.lsp.buf.format { async = true }
+        end, { buffer = buffer, desc = "" })
+    end,
 })
