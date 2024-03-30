@@ -16,3 +16,14 @@ vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Switch Window left" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Switch Window right" })
 vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Switch Window down" })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Switch Window up" })
+
+vim.keymap.set("n", "<leader>t", "<cmd>botright vnew | terminal<CR><C-w>Li", { desc = "Open Vertical Terminal" })
+
+
+
+vim.keymap.set("n", '<leader>/',
+    function() require("Comment.api").toggle.linewise.count(vim.v.count > 0 and vim.v.count or 1) end,
+    { desc = "Comment line" });
+
+vim.keymap.set("v", '<leader>/', "<esc><cmd>lua require('Comment.api').toggle.linewise(vim.fn.visualmode())<cr>",
+    { desc = "Comment visual" })

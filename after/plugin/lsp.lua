@@ -153,6 +153,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set('n', '<leader>lR', vim.lsp.buf.references, { buffer = buffer, desc = "References" })
         vim.keymap.set('n', '<leader>lf', function()
             vim.lsp.buf.format { async = true }
-        end, { buffer = buffer, desc = "" })
+        end, { buffer = buffer, desc = "Format Document" })
     end,
 })
