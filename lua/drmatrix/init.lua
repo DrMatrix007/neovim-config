@@ -31,3 +31,12 @@ ColorBack();
 vim.g.leetcode_browser = 'firefox'
 
 vim.opt.clipboard = "unnamedplus"
+
+--setup treesitter
+local ok, treesitter = pcall(require, "nvim-treesitter.configs")
+if ok then
+	treesitter.setup({
+		ensure_installed = { "typescript", "css", "javascript", "svelte" },
+		highlight = { enable = true },
+	})
+end
