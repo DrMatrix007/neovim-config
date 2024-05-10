@@ -7,7 +7,6 @@ lsp.preset('recommended')
 
 
 
-
 local cmp = require('cmp')
 local luasnip = require('luasnip')
 
@@ -22,6 +21,11 @@ cmp.setup({
     end,
     sources = {
         { name = 'nvim_lsp' },
+    },
+    view = {
+        entries = {
+            vertical_positioning = 'auto'
+        }
     },
     window = {
         completion = cmp.config.window.bordered(),
@@ -115,8 +119,14 @@ require('lspconfig').lua_ls.setup({
     }
 })
 
+require("lspconfig").html.setup{}
+
+require("lspconfig").tsserver.setup{}
+
+require("lspconfig").svelte.setup{}
 
 
+require("lspconfig").jsonls.setup{}
 
 --vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 --vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
