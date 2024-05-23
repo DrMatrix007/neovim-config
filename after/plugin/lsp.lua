@@ -24,12 +24,12 @@ cmp.setup({
     },
     view = {
         entries = {
-            vertical_positioning = 'auto'
+            -- vertical_positioning = 'auto'
         }
     },
     window = {
-        completion = cmp.config.window.bordered(),
         documentation = cmp.config.window.bordered(),
+        completion = cmp.config.window.bordered(),
     },
     mapping = {
         ["<Up>"] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
@@ -128,6 +128,7 @@ require("lspconfig").svelte.setup{}
 
 require("lspconfig").jsonls.setup{}
 
+require("lspconfig").prismals.setup{}
 --vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
 --vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
 --vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)

@@ -40,3 +40,5 @@ if ok then
 		highlight = { enable = true },
 	})
 end
+
+vim.opt.scrolloff = 99

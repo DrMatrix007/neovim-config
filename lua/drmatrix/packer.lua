@@ -76,8 +76,20 @@ return require('packer').startup(function(use)
             require('Comment').setup()
         end
     }
-    use {'ThePrimeagen/vim-be-good'}
+    use { 'ThePrimeagen/vim-be-good' }
 
-    use {'kawre/leetcode.nvim'}
-    
+    use { 'kawre/leetcode.nvim'
+    ,
+        requires = {
+            "nvim-telescope/telescope.nvim",
+            "nvim-lua/plenary.nvim", -- required by telescope
+            "MunifTanjim/nui.nvim",
+
+            -- optional
+            "nvim-treesitter/nvim-treesitter",
+            "rcarriga/nvim-notify",
+            "nvim-tree/nvim-web-devicons",
+        },
+
+    }
 end)
