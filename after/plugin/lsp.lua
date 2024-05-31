@@ -1,17 +1,5 @@
 local lsp_zero = require('lsp-zero')
 
--- lsp_zero.on_attach(function(_, bufnr)
--- 	-- see :help lsp-zero-keybindings
--- 	-- to learn the available actions
--- 	lsp_zero.default_keymaps({ buffer = bufnr })
--- end)
-
-
-
-
--- here you can setup the language servers
-
-
 
 lsp_zero.on_attach(function(client, bufnr)
 	-- see :help lsp-zero-keybindings
@@ -52,6 +40,21 @@ end)
 require("neodev").setup({})
 
 require('mason').setup({})
+
+
+require'lspconfig'.rust_analyzer.setup {
+  filetypes = {"rust"},
+  settings = {
+    ["rust-analyzer"] = {
+      cargo= {
+        allFeatures=true
+      },
+      check= {
+        command = "clippy"
+      }
+    },
+  }
+}
 require('mason-lspconfig').setup({
 	ensure_installed = {},
 	handlers = {
@@ -60,6 +63,7 @@ require('mason-lspconfig').setup({
 		end,
 	},
 })
+
 local cmp = require('cmp')
 
 cmp.setup({

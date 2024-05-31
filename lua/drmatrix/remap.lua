@@ -1,5 +1,5 @@
 vim.g.mapleader = " "
-vim.keymap.set("n", "<leader>ex", vim.cmd.Ex,{desc="Open explorer"})
+vim.keymap.set("n", "<leader>Ex", vim.cmd.Ex,{desc="Open explorer"})
 
 
 
@@ -26,3 +26,7 @@ vim.keymap.set("i", "<C-k>", "<C-w>k", { desc = "Switch Window up" })
 vim.keymap.set("n", "<leader>t", "<cmd>botright vnew | terminal<CR><C-w>Li", { desc = "Open Vertical Terminal" })
 
 vim.keymap.set("t", "<Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode in terminal" })
+
+vim.keymap.set("n", "<leader>c",function ()
+    vim.cmd "bd"
+end)
