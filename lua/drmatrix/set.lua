@@ -13,7 +13,9 @@ vim.opt.wrap = false;
 
 vim.opt.swapfile = false;
 vim.opt.backup = false;
-vim.opt.undodir = os.getenv("HOME") .. "/.neovim/undodir"
+if os.getenv("HOME") ~= nil then
+    vim.opt.undodir = os.getenv("HOME") .. "/.neovim/undodir"
+end
 vim.opt.undofile = true
 
 vim.opt.hlsearch = false;
@@ -24,3 +26,4 @@ vim.opt.signcolumn = "yes"
 
 vim.opt.updatetime = 50
 
+vim.opt.clipboard:append("unnamedplus")
