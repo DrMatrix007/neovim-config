@@ -16,6 +16,9 @@ end
 
 require("nvim-tree").setup {
     on_attach = my_on_attach,
+    filters = {
+        git_ignored = false
+    }
 }
 
 -- custom mappings
