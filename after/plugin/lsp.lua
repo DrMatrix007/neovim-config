@@ -42,7 +42,7 @@ require("neodev").setup({})
 require('mason').setup({})
 
 
-require'lspconfig'.rust_analyzer.setup {
+vim.lsp.config("rust_analyzer", {
   filetypes = {"rust"},
   settings = {
     ["rust-analyzer"] = {
@@ -54,7 +54,8 @@ require'lspconfig'.rust_analyzer.setup {
       }
     },
   }
-}
+})
+
 require('mason-lspconfig').setup({
 	ensure_installed = {},
 	handlers = {
